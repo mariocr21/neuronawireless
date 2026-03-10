@@ -5,7 +5,8 @@
     "scripts": {
         "test": "node --test",
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "pages:dev": "wrangler pages dev dist --compatibility-date=2026-03-10 --port 8788"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.14",

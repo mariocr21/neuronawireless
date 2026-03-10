@@ -74,10 +74,28 @@ Para lanzar una nueva actualización a producción:
     *   **Framework Preset**: `Vue` o `Vite`.
     *   **Build command**: `npm run build`
     *   **Build directory**: `dist`
+    *   **Root directory**: `frontend-modern`
+    *   **Functions directory**: detectada automáticamente desde `/functions`
 4.  **Proxy same-origin con Pages Functions**:
     *   Este proyecto ya incluye funciones en `/functions/api`, `/functions/app` y `/functions/broadcasting` para reenviar tráfico al backend productivo bajo `https://neuronawireless.com/platform`.
     *   En Pages, mantén el frontend apuntando a rutas relativas (`/api`, `/app`, `/broadcasting`) para evitar CORS.
     *   No sobrescribas `VITE_NEURONA_API_ENDPOINT` con una URL absoluta si quieres que el proxy de Cloudflare absorba las peticiones.
+
+### Prueba Local del Proxy de Pages
+
+1. Compila el frontend:
+   ```bash
+   npm run build
+   ```
+2. Levanta Pages Functions localmente:
+   ```bash
+   npm run pages:dev
+   ```
+3. Prueba una ruta proxyeada:
+   ```bash
+   curl -X POST http://127.0.0.1:8788/api/auth/login -H "Content-Type: application/json" -d "{}"
+   ```
+4. Si Functions está activa, la respuesta será del backend remoto (por ejemplo `422` por payload inválido), no un `405` del hosting estático.
 
 ---
 

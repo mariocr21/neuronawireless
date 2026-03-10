@@ -8,7 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.wrangler-pages-build
 dist
+dist-verify*
 dist-verify
 dist-ssr
 *.local
