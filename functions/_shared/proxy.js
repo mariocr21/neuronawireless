@@ -22,6 +22,9 @@ const copyResponseHeaders = (response) => {
 };
 
 export const proxyToOrigin = async (request, targetPath) => {
+  if (targetPath.length > 1 && targetPath.endsWith("/")) {
+    targetPath = targetPath.slice(0, -1);
+  }
   const targetURL = new URL(targetPath, DEFAULT_ORIGIN);
   const init = {
     method: request.method,
