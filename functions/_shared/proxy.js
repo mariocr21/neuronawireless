@@ -14,9 +14,21 @@ const copyRequestHeaders = (request) => {
 const copyResponseHeaders = (response) => {
   const headers = new Headers(response.headers);
 
+  // Headers causing CORS issues
   headers.delete("content-security-policy");
   headers.delete("content-security-policy-report-only");
   headers.delete("x-frame-options");
+
+  // Rewrite cookie domains so the browser accepts them on neuronawireless.pages.dev
+  const setCookies = response.headers.getSetCookie();
+  if (setCookies && setCookies.length > 0) {
+    headers.delete("set-cookie"); // Remove the original ones
+    setCookies.forEach(cookie => {
+      // Strip out the Domain attribute if it specifies neuronawireless.com
+      const rewrittenCookie = cookie.replace(/Domain=(?:\.)?neuronawireless\.com;? ?/gi, '');
+      headers.append("set-cookie", rewrittenCookie);
+    });
+  }
 
   return headers;
 };
