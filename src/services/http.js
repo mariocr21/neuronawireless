@@ -23,15 +23,34 @@ export const deriveBackendBase = (href = "") => {
 };
 
 export const resolveApiBaseURL = (locationLike = globalThis.location, configuredBase = env.VITE_NEURONA_API_ENDPOINT || "") => {
+  const backendBase = deriveBackendBase(locationLike?.href || "");
+
+  if (configuredBase?.startsWith?.("http://") || configuredBase?.startsWith?.("https://")) {
+    return configuredBase;
+  }
+
+  if (configuredBase?.startsWith?.("/")) {
+    return backendBase ? `${backendBase}${configuredBase}` : configuredBase;
+  }
+
   if (configuredBase) {
     return configuredBase;
   }
 
-  const backendBase = deriveBackendBase(locationLike?.href || "");
   return backendBase ? `${backendBase}/api` : "/api";
 };
 
 export const resolveAppBaseURL = (locationLike = globalThis.location, configuredBase = env.VITE_NEURONA_APP_ENDPOINT || "", resolvedApiBase = null) => {
+  const backendBase = deriveBackendBase(locationLike?.href || "");
+
+  if (configuredBase?.startsWith?.("http://") || configuredBase?.startsWith?.("https://")) {
+    return configuredBase;
+  }
+
+  if (configuredBase?.startsWith?.("/")) {
+    return backendBase ? `${backendBase}${configuredBase}` : configuredBase;
+  }
+
   if (configuredBase) {
     return configuredBase;
   }

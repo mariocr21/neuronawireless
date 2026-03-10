@@ -138,3 +138,18 @@ test("resolveApiBaseURL keeps local relative api during vite development", () =>
   assert.equal(resolveApiBaseURL({ href: "http://localhost:5173/login" }, "/api"), "/api");
   assert.equal(resolveAppBaseURL({ href: "http://localhost:5173/login" }, "", "/api"), "/app");
 });
+
+test("resolveApiBaseURL upgrades relative env base under platform deployments", () => {
+  assert.equal(
+    resolveApiBaseURL({ href: "https://neuronawireless.com/platform/login" }, "/api"),
+    "https://neuronawireless.com/platform/api",
+  );
+  assert.equal(
+    resolveAppBaseURL(
+      { href: "https://neuronawireless.com/platform/login" },
+      "/app",
+      "https://neuronawireless.com/platform/api",
+    ),
+    "https://neuronawireless.com/platform/app",
+  );
+});
