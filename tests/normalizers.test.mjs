@@ -9,6 +9,11 @@ import {
   normalizeWidgetSensor,
   normalizeSensorSeries,
 } from "../src/domain/normalizers.js";
+import {
+  deriveBackendBase,
+  resolveApiBaseURL,
+  resolveAppBaseURL,
+} from "../src/services/http.js";
 
 test("normalizeStationSummary maps real station payload without inventing metrics", () => {
   const result = normalizeStationSummary({
@@ -119,4 +124,17 @@ test("normalizeSensorSeries exposes chart points and stats", () => {
   assert.equal(result.points.length, 2);
   assert.equal(result.stats.max, 31);
   assert.equal(result.unitLabel, "C");
+});
+
+test("resolveApiBaseURL falls back to /platform/api when app runs under platform", () => {
+  const derived = deriveBackendBase("https://neuronawireless.com/platform/dashboard");
+
+  assert.equal(derived, "https://neuronawireless.com/platform");
+  assert.equal(resolveApiBaseURL({ href: "https://neuronawireless.com/platform/dashboard" }, ""), "https://neuronawireless.com/platform/api");
+  assert.equal(resolveAppBaseURL({ href: "https://neuronawireless.com/platform/dashboard" }, ""), "https://neuronawireless.com/platform/app");
+});
+
+test("resolveApiBaseURL keeps local relative api during vite development", () => {
+  assert.equal(resolveApiBaseURL({ href: "http://localhost:5173/login" }, "/api"), "/api");
+  assert.equal(resolveAppBaseURL({ href: "http://localhost:5173/login" }, "", "/api"), "/app");
 });

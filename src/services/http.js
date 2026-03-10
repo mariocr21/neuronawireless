@@ -1,11 +1,47 @@
 import axios from "axios";
 
 const tokenStorageKey = "access_token";
+const env = import.meta?.env || {};
 
-const apiBaseURL = import.meta.env.VITE_NEURONA_API_ENDPOINT || "/api";
-const appBaseURL =
-  import.meta.env.VITE_NEURONA_APP_ENDPOINT ||
-  apiBaseURL.replace(/\/api\/?$/, "/app");
+export const deriveBackendBase = (href = "") => {
+  if (!href) {
+    return "";
+  }
+
+  try {
+    const url = new URL(href);
+    const pathname = url.pathname || "";
+
+    if (pathname.startsWith("/platform")) {
+      return `${url.origin}/platform`;
+    }
+
+    return "";
+  } catch {
+    return "";
+  }
+};
+
+export const resolveApiBaseURL = (locationLike = globalThis.location, configuredBase = env.VITE_NEURONA_API_ENDPOINT || "") => {
+  if (configuredBase) {
+    return configuredBase;
+  }
+
+  const backendBase = deriveBackendBase(locationLike?.href || "");
+  return backendBase ? `${backendBase}/api` : "/api";
+};
+
+export const resolveAppBaseURL = (locationLike = globalThis.location, configuredBase = env.VITE_NEURONA_APP_ENDPOINT || "", resolvedApiBase = null) => {
+  if (configuredBase) {
+    return configuredBase;
+  }
+
+  const apiBase = resolvedApiBase || resolveApiBaseURL(locationLike, "");
+  return apiBase.replace(/\/api\/?$/, "/app");
+};
+
+const apiBaseURL = resolveApiBaseURL();
+const appBaseURL = resolveAppBaseURL(globalThis.location, "", apiBaseURL);
 
 const attachAuth = (config) => {
   const token = localStorage.getItem(tokenStorageKey);
