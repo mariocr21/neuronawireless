@@ -36,6 +36,15 @@ export const proxyToOrigin = async (request, targetPath) => {
   const upstream = await fetch(targetURL, init);
   const headers = copyResponseHeaders(upstream);
 
+  if (headers.has("location")) {
+    const location = headers.get("location");
+    if (location.startsWith(DEFAULT_ORIGIN + "/platform")) {
+      headers.set("location", location.replace(DEFAULT_ORIGIN + "/platform", ""));
+    } else if (location.startsWith(DEFAULT_ORIGIN)) {
+      headers.set("location", location.replace(DEFAULT_ORIGIN, ""));
+    }
+  }
+
   return new Response(upstream.body, {
     status: upstream.status,
     statusText: upstream.statusText,

@@ -110,7 +110,8 @@ export const inertiaHeaders = {
 };
 
 export const fetchInertiaPage = async (path) => {
-  const response = await appClient.get(path, { headers: inertiaHeaders });
+  const cleanPath = path === "/" ? "" : path;
+  const response = await appClient.get(cleanPath, { headers: inertiaHeaders });
   return response.data?.props || {};
 };
 
