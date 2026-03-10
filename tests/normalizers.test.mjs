@@ -11,6 +11,7 @@ import {
 } from "../src/domain/normalizers.js";
 import {
   deriveBackendBase,
+  getHostedProductionBase,
   resolveApiBaseURL,
   resolveAppBaseURL,
 } from "../src/services/http.js";
@@ -151,5 +152,12 @@ test("resolveApiBaseURL upgrades relative env base under platform deployments", 
       "https://neuronawireless.com/platform/api",
     ),
     "https://neuronawireless.com/platform/app",
+  );
+});
+
+test("getHostedProductionBase maps worker deployments to canonical platform backend", () => {
+  assert.equal(
+    getHostedProductionBase({ href: "https://neuronawireless.mariocr21.workers.dev/login" }),
+    "https://neuronawireless.com/platform",
   );
 });
