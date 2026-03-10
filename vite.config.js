@@ -31,6 +31,18 @@ export default defineConfig({
         changeOrigin: true,
         secure: false, // In case of self-signed SSL issues
         rewrite: (path) => path.replace(/^\/api/, '/platform/api')
+      },
+      '/app': {
+        target: 'https://neuronawireless.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/app/, '/platform/app')
+      },
+      '/broadcasting': {
+        target: 'https://neuronawireless.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/broadcasting/, '/platform/broadcasting')
       }
     }
   }

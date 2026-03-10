@@ -10,21 +10,28 @@ export default {
     theme: {
         extend: {
             colors: {
+                app: {
+                    shell: '#06110d',
+                },
                 brand: {
-                    black: '#000000',
-                    dark: '#252625',
-                    green: {
-                        DEFAULT: '#0ba703',
-                        light: '#0fff00',
-                    },
-                    positive: '#21BA45',
-                    negative: '#C10015',
-                    info: '#31CCEC',
-                    warning: '#F2C037'
+                    ink: '#04110b',
+                    black: '#020504',
+                    dark: '#101915',
+                    green: '#59d94f',
+                    spring: '#95f46f',
+                    mist: '#9fb4a8',
+                    sky: '#58b8ff',
+                    gold: '#f3c969',
+                    danger: '#ff6b6b',
                 }
             },
             fontFamily: {
-                sans: ['Quicksand', 'Inter', 'sans-serif'],
+                sans: ['Manrope', 'sans-serif'],
+                display: ['Space Grotesk', 'sans-serif'],
+            },
+            boxShadow: {
+                card: '0 24px 60px rgba(0, 0, 0, 0.25)',
+                'soft-glow': '0 0 30px rgba(89, 217, 79, 0.35)',
             }
         },
     },
