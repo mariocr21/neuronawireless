@@ -22,25 +22,8 @@ export const deriveBackendBase = (href = "") => {
   }
 };
 
-export const getHostedProductionBase = (locationLike = globalThis.location) => {
-  const href = locationLike?.href || "";
-
-  try {
-    const url = new URL(href);
-    const host = url.hostname || "";
-
-    if (host.endsWith(".workers.dev")) {
-      return "https://neuronawireless.com/platform";
-    }
-
-    return "";
-  } catch {
-    return "";
-  }
-};
-
 export const resolveApiBaseURL = (locationLike = globalThis.location, configuredBase = env.VITE_NEURONA_API_ENDPOINT || "") => {
-  const backendBase = deriveBackendBase(locationLike?.href || "") || getHostedProductionBase(locationLike);
+  const backendBase = deriveBackendBase(locationLike?.href || "");
 
   if (configuredBase?.startsWith?.("http://") || configuredBase?.startsWith?.("https://")) {
     return configuredBase;
@@ -58,7 +41,7 @@ export const resolveApiBaseURL = (locationLike = globalThis.location, configured
 };
 
 export const resolveAppBaseURL = (locationLike = globalThis.location, configuredBase = env.VITE_NEURONA_APP_ENDPOINT || "", resolvedApiBase = null) => {
-  const backendBase = deriveBackendBase(locationLike?.href || "") || getHostedProductionBase(locationLike);
+  const backendBase = deriveBackendBase(locationLike?.href || "");
 
   if (configuredBase?.startsWith?.("http://") || configuredBase?.startsWith?.("https://")) {
     return configuredBase;

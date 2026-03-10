@@ -74,8 +74,10 @@ Para lanzar una nueva actualización a producción:
     *   **Framework Preset**: `Vue` o `Vite`.
     *   **Build command**: `npm run build`
     *   **Build directory**: `dist`
-4.  **Variables en el Panel de Cloudflare**: En el dashboard de tu cuenta, en la sección "Environment Variables" de Pages, asegúrate de sobreescribir la referencia al backend original asignando:
-    `VITE_NEURONA_API_ENDPOINT` = `https://neuronawireless.com/platform/api`
+4.  **Proxy same-origin con Pages Functions**:
+    *   Este proyecto ya incluye funciones en `/functions/api`, `/functions/app` y `/functions/broadcasting` para reenviar tráfico al backend productivo bajo `https://neuronawireless.com/platform`.
+    *   En Pages, mantén el frontend apuntando a rutas relativas (`/api`, `/app`, `/broadcasting`) para evitar CORS.
+    *   No sobrescribas `VITE_NEURONA_API_ENDPOINT` con una URL absoluta si quieres que el proxy de Cloudflare absorba las peticiones.
 
 ---
 
