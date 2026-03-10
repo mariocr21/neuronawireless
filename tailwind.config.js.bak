@@ -1,0 +1,32 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: [
+        "./index.html",
+        "./src/**/*.{vue,js,ts,jsx,tsx}",
+    ],
+    theme: {
+        extend: {
+            colors: {
+                brand: {
+                    black: '#000000',
+                    dark: '#252625',
+                    green: {
+                        DEFAULT: '#0ba703', // secondary
+                        light: '#0fff00',   // accent (neon green)
+                    },
+                    positive: '#21BA45',
+                    negative: '#C10015',
+                    info: '#31CCEC',
+                    warning: '#F2C037'
+                }
+            },
+            fontFamily: {
+                sans: ['Quicksand', 'Inter', 'sans-serif'],
+            }
+        },
+    },
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/typography'),
+    ],
+}
